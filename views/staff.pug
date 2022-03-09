@@ -1,0 +1,19 @@
+extends layout
+block content
+    .content
+        table.table.table-bordered
+            tr
+                th(scope="col") Full name
+                th(scope="col") Position
+                th(scope="col") Salary
+                th(scope="col") Birthdate
+            each n in results
+                tr
+                    td= n.first_name+" "+n.last_name
+                    td= n.position
+                    td= n.salary
+                    td= n.birth_date
+
+
+
+
