@@ -10,7 +10,7 @@ const token = request.cookies.token
     if (token) {
         jwt.verify(token, 'SECRET', (error, decoded) => {
             if (error) {
-                return request.json({
+                return response.json({
                     success: false,
                     message: 'Token is not valid'
                 });
