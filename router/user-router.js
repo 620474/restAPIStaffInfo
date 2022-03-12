@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const db = require('../db/db.js');
+const {usersValidator} = require('../api/validation')
+const {celebrate, Joi} = require('celebrate')
 
 const userRouter = express.Router();
 
@@ -11,15 +13,14 @@ userRouter.use(express.urlencoded({extended: true}));
 userRouter.use(bodyParser.json());
 userRouter.use(cookieParser());
 
-userRouter.route('/login')
+userRouter.route('/login',)
     .get((request, response) => {
         response.render('login');
     })
-    .post((request, response) => {
-        console.log(request.body)
-        db('users')
+    .post(usersValidator, async (request, response) => {
+        await db('users')
             .where({name: request.body.name})
-                .then(user => {
+            .then(user => {
                 if (!user) {
                     response.status(401).json({
                         error: 'No user by that name'
@@ -34,6 +35,7 @@ userRouter.route('/login')
                                 })
                             } else {
                                 let token = jwt.sign(user[0], 'SECRET', {expiresIn: '5m'})
+                                response.statusCode = 200;
                                 response.cookie('token', token)
                                 response.redirect('/')
                             }
@@ -50,7 +52,7 @@ userRouter.route('/logout')
 
 userRouter.route('/registration')
     .get((request, response) => {
-    response.render('registration')
+        response.render('registration')
     })
     .post(async (request, response) => {
         const {username, password} = request.body

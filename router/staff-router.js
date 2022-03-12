@@ -2,7 +2,7 @@ const db = require('../db/db.js')
 const express = require('express')
 const bodyParser = require('body-parser');
 const {checkToken} = require('../api/auth.js')
-const {request, response} = require("express");
+const {staffCreateValidator} = require('../api/validation')
 const staffRouter = express.Router();
 
 staffRouter.use(bodyParser.json())
@@ -11,7 +11,7 @@ staffRouter.route('/addStaff')
     .get(checkToken, (request, response) => {
         response.render('addStaff')
     })
-    .post(checkToken, async (request, response) => {
+    .post(checkToken, staffCreateValidator, async (request, response) => {
         await db('staff')
             .insert({
                 birth_date: request.body.birth_date,
@@ -27,7 +27,7 @@ staffRouter.route('/')
     .get(async (request, response) => {
         const result = await db('staff')
             .select()
-        console.log(result)
+        console.log(response.headers)
         let page = parseInt(request.query.page);
         let paginationPagesQuantity = Math.ceil(result.length / 25);
         let paginationsPages = []
@@ -62,7 +62,6 @@ staffRouter.route('/staff/:id')
         const result = await db('staff')
             .where('staff_id', id)
         const {staff_id, birth_date, first_name, last_name, position, salary} = result[0]
-
         response.render('profile', {staff_id, birth_date, first_name, last_name, position, salary})
     })
     .post(checkToken, async (request, response) => {
