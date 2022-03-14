@@ -13,7 +13,7 @@ block content
                         a(href=`/staff/${n.staff_id}`)=n.first_name+" "+n.last_name
                     td.staff__info= n.position
                     td.staff__info= n.salary
-                    td= n.birth_date
+                    td= new Date().getFullYear() - n.birth_date.getFullYear()
         nav.aria-label
             ul.pagination
                 each page in pages ? pages : []

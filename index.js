@@ -5,11 +5,15 @@ const bodyParser = require('body-parser');
 const UserRouter = require('./router/user-router');
 const StaffRouter = require('./router/staff-router');
 const {errors} = require('celebrate')
+const cookieParser = require("cookie-parser");
 
 const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(express.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 
 app.set('views', path.join(__dirname, 'views'));

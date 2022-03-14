@@ -1,11 +1,10 @@
 const db = require('../db/db.js')
 const express = require('express')
-const bodyParser = require('body-parser');
+
 const {checkToken} = require('../api/auth.js')
 const {staffCreateValidator} = require('../api/validation')
 const staffRouter = express.Router();
 
-staffRouter.use(bodyParser.json())
 
 staffRouter.route('/addStaff')
     .get(checkToken, (request, response) => {
@@ -27,7 +26,6 @@ staffRouter.route('/')
     .get(async (request, response) => {
         const result = await db('staff')
             .select()
-        console.log(response.headers)
         let page = parseInt(request.query.page);
         let paginationPagesQuantity = Math.ceil(result.length / 25);
         let paginationsPages = []

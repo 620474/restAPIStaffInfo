@@ -1,22 +1,16 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
-const db = require('../db/db.js');
-const {usersValidator} = require('../api/validation')
-const {celebrate, Joi} = require('celebrate')
+const {usersValidator} = require('../api/validation');
 
 const userRouter = express.Router();
-
-userRouter.use(express.urlencoded({extended: true}));
-userRouter.use(bodyParser.json());
-userRouter.use(cookieParser());
 
 userRouter.route('/login',)
     .get((request, response) => {
         response.render('login');
     })
+
     .post(usersValidator, async (request, response) => {
         await db('users')
             .where({name: request.body.name})
@@ -37,6 +31,7 @@ userRouter.route('/login',)
                                 let token = jwt.sign(user[0], 'SECRET', {expiresIn: '5m'})
                                 response.statusCode = 200;
                                 response.cookie('token', token)
+                                response.cookie('name',user[0].name)
                                 response.redirect('/')
                             }
                         })
@@ -47,6 +42,7 @@ userRouter.route('/login',)
 userRouter.route('/logout')
     .get((request, response) => {
         response.clearCookie('token')
+        response.clearCookie('name')
         response.redirect('/')
     })
 
@@ -54,7 +50,8 @@ userRouter.route('/registration')
     .get((request, response) => {
         response.render('registration')
     })
-    .post(async (request, response) => {
+
+    .post(usersValidator,async (request, response) => {
         const {username, password} = request.body
         await db('users')
             .insert({
@@ -64,4 +61,4 @@ userRouter.route('/registration')
         response.redirect('/')
     })
 
-module.exports = userRouter
+module.exports = userRouter;
