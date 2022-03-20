@@ -1,4 +1,3 @@
-const db = require('../db/db.js')
 const express = require('express')
 const {checkToken} = require('../api/auth.js')
 const {staffCreateValidator} = require('../api/validation')

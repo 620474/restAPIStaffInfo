@@ -1,7 +1,4 @@
 const db = require('../db/db.js')
-const {checkToken} = require('../api/auth.js')
-const {staffCreateValidator} = require('../api/validation')
-const {request, response} = require("express");
 
 const addNewStaff = async (request, response) => {
     await db('staff')
