@@ -7,9 +7,6 @@ const {usersValidator} = require('../api/validation');
 const userRouter = express.Router();
 
 userRouter.route('/login',)
-    .get((request, response) => {
-        response.render('login');
-    })
 
     .post(usersValidator, async (request, response) => {
         await db('users')
@@ -39,17 +36,7 @@ userRouter.route('/login',)
             })
     })
 
-userRouter.route('/logout')
-    .get((request, response) => {
-        response.clearCookie('token')
-        response.clearCookie('name')
-        response.redirect('/')
-    })
-
 userRouter.route('/registration')
-    .get((request, response) => {
-        response.render('registration')
-    })
 
     .post(usersValidator,async (request, response) => {
         const {username, password} = request.body
@@ -58,6 +45,7 @@ userRouter.route('/registration')
                 name: username,
                 password: bcrypt.hashSync(password, 8)
             })
+
         response.redirect('/')
     })
 

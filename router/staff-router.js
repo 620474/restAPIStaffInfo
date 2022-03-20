@@ -7,9 +7,7 @@ const staffRouter = express.Router();
 
 
 staffRouter.route('/addStaff')
-    .get(checkToken, (request, response) => {
-        response.render('addStaff')
-    })
+
     .post(checkToken, staffCreateValidator, async (request, response) => {
         await db('staff')
             .insert({
@@ -19,7 +17,7 @@ staffRouter.route('/addStaff')
                 position: request.body.position,
                 salary: request.body.salary
             })
-        response.redirect('/')
+        response.statu('/')
     })
 
 staffRouter.route('/')
