@@ -19,8 +19,6 @@ app.use(StaffRouter);
 
 app.use(cors());
 
-app.use(express.urlencoded({extended: true}));
-app.use(express.json());
 app.use(errors())
 
 const PORT = process.env.PORT || 3000;
