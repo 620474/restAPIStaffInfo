@@ -7,7 +7,6 @@
  * @returns { Promise<void> }
  */
 const faker = require("faker");
-const bcrypt = require('bcrypt');
 
 function positionUser() {
   let positionEnum = ['Junior Software Engineer', 'Software Engineer', 'Senior Software Engineer', 'Lead Software Engineer']
