@@ -4,7 +4,7 @@ const {celebrate, Joi} = require('celebrate')
 const usersValidator = celebrate({
     body: Joi.object().keys({
         name: Joi.string().required(),
-        password: Joi.string().max(30).required()
+        password: Joi.string().min(5).max(30).required()
     }),
 });
 
