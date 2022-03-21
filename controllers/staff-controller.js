@@ -9,7 +9,7 @@ const addNewStaff = async (request, response) => {
             position: request.body.position,
             salary: request.body.salary
         })
-    return response.status(200).send({
+    return response.status(200).json({
         success: true,
         text: 'Success'
     })
@@ -58,7 +58,7 @@ const showStaffById = async (request, response) => {
     const result = await db('staff')
         .where('staff_id', id)
     const {staff_id, birth_date, first_name, last_name, position, salary} = result[0]
-    return response.status(200).send({staff_id, birth_date, first_name, last_name, position, salary})
+    return response.status(200).json({staff_id, birth_date, first_name, last_name, position, salary})
 }
 
 const deleteStaff = async (request, response) => {
@@ -66,7 +66,7 @@ const deleteStaff = async (request, response) => {
     await db('staff')
         .where('staff_id', id)
         .del()
-    return response.status(200).send("Staff delete")
+    return response.status(200).json("Staff delete")
 }
 
 module.exports = {

@@ -21,7 +21,7 @@ const authUser = async (request,response) => {
                                 })
                             } else {
                                 let token = jwt.sign(user[0], 'SECRET', {expiresIn: '5m'})
-                                response.status(200).send({token});
+                                response.status(200).json({token});
                             }
                         })
                 }
