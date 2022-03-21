@@ -16,16 +16,20 @@ const addNewStaff = async (request, response) => {
 }
 
 const showAllStaff = async (request, response) => {
-    const result = await db('staff')
-        .select()
-    let page = parseInt(request.query.page);
+    let {page, sortBy,filterByFirstName, filterByLastName} = request.query;
+    let result
+        result = await db('staff')
+            .select()
+            .orderBy('salary', `${sortBy}`)
+
+    const limit = 25;
     let paginationPagesQuantity = Math.ceil(result.length / 25);
     let paginationsPages = []
     for (let i = 1; i <= paginationPagesQuantity; i++) {
         paginationsPages.push(i)
     }
     if (!page) page = 1;
-    const limit = 25;
+
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
     const results = {};
