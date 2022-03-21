@@ -9,7 +9,7 @@ const addNewStaff = async (request, response) => {
             position: request.body.position,
             salary: request.body.salary
         })
-    response.status(200).json({
+    response.status(200).send({
         success: true,
         text: 'Success'
     })
@@ -66,7 +66,7 @@ const deleteStaff = async (request, response) => {
     await db('staff')
         .where('staff_id', id)
         .del()
-    response.status(200).send("Staff deleted")
+    response.status(200).send("Staff delete")
 }
 
 module.exports = {
