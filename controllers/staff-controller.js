@@ -9,18 +9,18 @@ const addNewStaff = async (request, response) => {
             position: request.body.position,
             salary: request.body.salary
         })
-    response.status(200).send({
+    return response.status(200).send({
         success: true,
         text: 'Success'
     })
 }
 
 const showAllStaff = async (request, response) => {
-    let {page, sortBy,filterByFirstName, filterByLastName} = request.query;
+    let {page, sortBy, filterByFirstName, filterByLastName} = request.query;
     let result
-        result = await db('staff')
-            .select()
-            .orderBy('salary', `${sortBy}`)
+    result = await db('staff')
+        .select()
+        .orderBy('salary', `${sortBy}`)
 
     const limit = 25;
     let paginationPagesQuantity = Math.ceil(result.length / 25);
@@ -47,7 +47,7 @@ const showAllStaff = async (request, response) => {
     }
     results.results = result.slice(startIndex, endIndex);
     response.paginatedResults = results;
-    response.status(200).json({
+    return response.status(200).json({
         result: results,
         pages: paginationsPages
     })
@@ -58,7 +58,7 @@ const showStaffById = async (request, response) => {
     const result = await db('staff')
         .where('staff_id', id)
     const {staff_id, birth_date, first_name, last_name, position, salary} = result[0]
-    response.status(200).send({staff_id, birth_date, first_name, last_name, position, salary})
+    return response.status(200).send({staff_id, birth_date, first_name, last_name, position, salary})
 }
 
 const deleteStaff = async (request, response) => {
@@ -66,7 +66,7 @@ const deleteStaff = async (request, response) => {
     await db('staff')
         .where('staff_id', id)
         .del()
-    response.status(200).send("Staff delete")
+    return response.status(200).send("Staff delete")
 }
 
 module.exports = {
