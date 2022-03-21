@@ -1,7 +1,7 @@
 const {celebrate, Joi} = require('celebrate')
 
 
-const usersValidator = celebrate({
+const userValidator = celebrate({
     body: Joi.object().keys({
         name: Joi.string().required(),
         password: Joi.string().min(5).max(30).required()
@@ -20,6 +20,6 @@ const staffCreateValidator = celebrate({
 
 
 module.exports={
-    usersValidator,
+    userValidator,
     staffCreateValidator,
 }

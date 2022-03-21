@@ -1,14 +1,14 @@
 const express = require('express');
-const {usersValidator} = require('../api/validation');
+const {userValidator} = require('../api/validation');
 const {authUser,registerUser} = require('../controllers/user-controller')
 
 const userRouter = express.Router();
 
 userRouter.route('/login',)
-    .post(usersValidator, authUser)
+    .post(userValidator, authUser)
 
 userRouter.route('/registration')
 
-    .post(usersValidator, registerUser)
+    .post(userValidator, registerUser)
 
 module.exports = userRouter;
