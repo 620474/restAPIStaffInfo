@@ -56,8 +56,8 @@ const showAllStaff = async (request, response) => {
 const showStaffById = async (request, response) => {
     const id = request.url.split('/')[2]
     const result = await db('staff')
-        .where('staff_id', id)
-    const {staff_id, birth_date, first_name, last_name, position, salary} = result[0]
+        .where('staff_id', id);
+    const {staff_id, birth_date, first_name, last_name, position, salary} = result[0];
     return response.status(200).json({staff_id, birth_date, first_name, last_name, position, salary})
 }
 
