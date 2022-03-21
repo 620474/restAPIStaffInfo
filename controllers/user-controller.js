@@ -30,15 +30,12 @@ const authUser = async (request,response) => {
 
 const registerUser = async (request,response) => {
     const {name, password} = request.body
-
     await db('users')
         .insert({
             name: name,
             password: bcrypt.hashSync(password, 8)
         })
-    response.status(200).send({
-        text: "Ready"
-    })
+    response.status(200).send('Success')
 }
 
 

@@ -8,7 +8,6 @@ const usersValidator = celebrate({
     }),
 });
 
-
 const staffCreateValidator = celebrate({
     body: Joi.object().keys({
         first_name: Joi.string().required(),
