@@ -5,7 +5,7 @@ const staffRouter = express.Router();
 const {addNewStaff,showAllStaff,showStaffById,deleteStaff} = require('../controllers/staff-controller')
 
 
-staffRouter.route('/addStaff')
+staffRouter.route('/registerNEwStaff')
     .post(checkToken, staffCreateValidator, addNewStaff)
 
 staffRouter.route('/')
