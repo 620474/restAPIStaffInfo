@@ -13,7 +13,7 @@ const staffCreateValidator = celebrate({
         first_name: Joi.string().required(),
         last_name: Joi.string().required(),
         birth_date: Joi.date().required(),
-        position: Joi.string().required(),
+        position: Joi.string().valid('Junior Software Engineer', 'Software Engineer', 'Lead Software Engineer', 'Senior Software Engineer').required(),
         salary: Joi.number().required()
     }),
 });
