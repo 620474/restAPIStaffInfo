@@ -1,8 +1,8 @@
 const express = require('express');
-const {userValidator} = require('./middleware/validation');
+const {userValidator} = require('./validation/validation');
 const {authUserService, registerUserService} = require('./routes/user')
 const {checkToken} = require('./middleware/auth.js')
-const {staffCreateValidator} = require('./middleware/validation')
+const {staffCreateValidator} = require('./validation/validation')
 const {addNewStaffService,showAllStaffService,showStaffByIdService,deleteStaffService} = require('./routes/staff')
 
 
