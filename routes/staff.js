@@ -16,6 +16,7 @@ const addNewStaffService = (req, res, next) => {
 }
 
 const showAllStaffService = (request, response, next) => {
+const {firstName} = request.query
     showAllStaffModel(request.query)
         .then(res => response.status(200).json(res))
         .catch(err => next(err))
