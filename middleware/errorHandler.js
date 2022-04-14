@@ -1,6 +1,8 @@
 const errorHandler = (err, req, res, next) => {
     res.header("Content-Type", 'application/json')
-    res.status(err.statusCode).send(JSON.stringify(err, null, 4)) // pretty print
+    console.log('Path: ', req.path)
+    res.status(err.statusCode).send(JSON.stringify(err, null, 4))
+    next()// pretty print
 }
 
 

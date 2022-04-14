@@ -12,38 +12,42 @@ const addNewStaffModel = ({birth_date, first_name, last_name, position, salary})
 }
 
 const showAllStaffModel = async ({sortBy, page = 1, sortByTitle = 'salary', firstName, lastName}) => {
+    try {
+        let result = await db('staff')
+            .select()
+            .orderBy(sortByTitle, sortBy)
+            .whereILike("first_name", `%${firstName ?? ""}%`)
+            .andWhereILike('last_name', `%${lastName ?? ""}%`)
 
-    let result = await db('staff')
-        .select()
-        .orderBy(sortByTitle, sortBy)
-        .whereILike("first_name", `%${firstName ?? ""}%`)
-        .andWhereILike('last_name', `%${lastName ?? ""}%`)
+        const limit = 25;
+        let paginationPagesQuantity = Math.ceil(result.length / 25);
+        let paginationsPages = []
+        for (let i = 1; i <= paginationPagesQuantity; i++) {
+            paginationsPages.push(i)
+        }
+        const startIndex = (page - 1) * limit;
+        const endIndex = page * limit;
+        const results = {};
+        if (endIndex < result.length) {
+            results.next = {
+                page: page + 1,
+                limit: limit
+            };
+        }
+        if (startIndex > 0) {
+            results.previous = {
+                page: page - 1,
+                limit: limit
+            };
+        }
+        results.results = result.slice(startIndex, endIndex);
 
-    const limit = 25;
-    let paginationPagesQuantity = Math.ceil(result.length / 25);
-    let paginationsPages = []
-    for (let i = 1; i <= paginationPagesQuantity; i++) {
-        paginationsPages.push(i)
-    }
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-    const results = {};
-    if (endIndex < result.length) {
-        results.next = {
-            page: page + 1,
-            limit: limit
-        };
-    }
-    if (startIndex > 0) {
-        results.previous = {
-            page: page - 1,
-            limit: limit
-        };
-    }
-    results.results = result.slice(startIndex, endIndex);
-    return {
-        result: results,
-        pages: paginationsPages
+        return {
+            result: results,
+            pages: paginationsPages
+        }
+    } catch (err) {
+        return new Error('Something goes wrong')
     }
 }
 

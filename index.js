@@ -18,7 +18,7 @@ app.use(router);
 
 app.use(errorLogger);
 
-app.use(errorHandler);
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 3000;
 
