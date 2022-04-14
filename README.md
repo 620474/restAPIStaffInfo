@@ -36,7 +36,7 @@ app.listen(PORT, () => {
 Router
 
 ```js
-// staffRouter.js
+// staff.js
 
 staffRouter.route('/registerNewStaff')
     .post(checkToken, staffCreateValidator, addNewStaffService)
