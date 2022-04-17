@@ -1,29 +1,29 @@
 const {
-    showAllStaffModel,
-    addNewStaffModel,
-    showStaffByIdModel,
-    deleteStaffModel
-} = require('../models/staffModel')
+    addNewStaffService,
+    showAllStaffService,
+    showStaffByIdService,
+    deleteStaffService
+} = require('../services/staffServices')
 
-const addNewStaffService = (req, res, next) => {
+const addNewStaff = (req, res, next) => {
     try {
         const staff = req.body;
-        const result = addNewStaffModel(staff)
+        const result = addNewStaffService(staff)
         res.status(201).json({result})
     } catch (err) {
         next(err)
     }
 }
 
-const showAllStaffService = (request, response, next) => {
-    showAllStaffModel(request.query)
+const showAllStaff = (request, response, next) => {
+    showAllStaffService(request.query)
         .then(res => response.status(200).json(res))
         .catch(err => next(err))
 }
 
-const showStaffByIdService = (request, response, next) => {
+const showStaffById = (request, response, next) => {
     const id = request.url.split('/')[2]
-    showStaffByIdModel(id)
+    showStaffByIdService(id)
         .then(({staff_id, birth_date, first_name, last_name, position, salary}) => {
             return response.status(200).json({staff_id, birth_date, first_name, last_name, position, salary})
         })
@@ -31,11 +31,11 @@ const showStaffByIdService = (request, response, next) => {
 }
 
 
-const deleteStaffService = (request, response, next) => {
+const deleteStaff = (request, response, next) => {
 
     const id = request.url.split('/')[2]
 
-    deleteStaffModel(id)
+    deleteStaffService(id)
         .then(_ => {
             return response.status(200).json({message: 'Success'})
         })
@@ -43,8 +43,8 @@ const deleteStaffService = (request, response, next) => {
 }
 
 module.exports = {
-    addNewStaffService,
-    showAllStaffService,
-    showStaffByIdService,
-    deleteStaffService
+    addNewStaff,
+    showAllStaff,
+    showStaffById,
+    deleteStaff
 }

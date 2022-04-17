@@ -1,27 +1,27 @@
 const express = require('express');
 const {userValidator} = require('./validation/validation');
-const {authUserService, registerUserService} = require('./routes/user')
+const {authUser, registerUser} = require('./routes/user')
 const {checkToken} = require('./middleware/auth.js')
 const {staffCreateValidator} = require('./validation/validation')
-const {addNewStaffService,showAllStaffService,showStaffByIdService,deleteStaffService} = require('./routes/staff')
+const {addNewStaff,showAllStaff,showStaffById,deleteStaff} = require('./routes/staff')
 
 
 const router = express.Router();
 
 router.route('/login',)
-    .post(userValidator, authUserService)
+    .post(userValidator, authUser)
 
 router.route('/registration')
-    .post(userValidator, registerUserService)
+    .post(userValidator, registerUser)
 
 router.route('/registerNewStaff')
-    .post(checkToken, staffCreateValidator, addNewStaffService)
+    .post(checkToken, staffCreateValidator, addNewStaff)
 
 router.route('/')
-    .get(showAllStaffService)
+    .get(showAllStaff)
 
 router.route('/staff/:id')
-    .get(checkToken, showStaffByIdService)
-    .post(checkToken, deleteStaffService)
+    .get(checkToken, showStaffById)
+    .post(checkToken, deleteStaff)
 
 module.exports = router;
