@@ -1,11 +1,12 @@
-const {saveUserService, loginUserService} = require('../services/userServices')
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const {saveUser, loginUser} = require('../models/userModel')
+const {generateRefreshToken, generateAccessToken} = require('../middleware/auth')
 
 const registerUser = async (req, res, next) => {
     const {name, password} = req.body
     try {
-        await saveUserService(name, password)
+        await saveUser(name, password)
         return res.status(200).json("Success");
     } catch (err) {
         return next(err)
@@ -15,7 +16,7 @@ const registerUser = async (req, res, next) => {
 const authUser = async (request, response, next) => {
     const {name, password} = request.body;
     try {
-        loginUserService(name)
+        loginUser(name)
             .then(user => {
                 if (!user) {
                     return response.status(401).json({
@@ -30,8 +31,12 @@ const authUser = async (request, response, next) => {
                                     error: 'Unauthorized Access!'
                                 })
                             } else {
-                                let token = jwt.sign(user, 'SECRET', {expiresIn: '5m'})
-                                return response.status(200).json({token});
+                                let refreshToken = generateRefreshToken({user: user.name})
+                                let token = generateAccessToken({user: user.name})
+                                response.cookie("refreshToken", refreshToken, {
+                                    httpOnly: true
+                                });
+                                return response.status(200).json({token, refreshToken});
                             }
                         })
                 }

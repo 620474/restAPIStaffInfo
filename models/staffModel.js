@@ -11,13 +11,13 @@ const addNewStaffModel = ({birth_date, first_name, last_name, position, salary})
         });
 }
 
-const showAllStaffModel = async ({sortBy, page = 1, sortByTitle = 'salary', firstName, lastName}) => {
+const showAllStaffModel = async ({sortBy, page = 1, sortByTitle = 'salary', firstName = "", lastName = ""}) => {
     try {
         let result = await db('staff')
             .select()
             .orderBy(sortByTitle, sortBy)
-            .whereILike("first_name", `%${firstName ?? ""}%`)
-            .andWhereILike('last_name', `%${lastName ?? ""}%`)
+            .whereILike("first_name", `%${firstName}%`)
+            .andWhereILike('last_name', `%${lastName}%`)
 
         const limit = 25;
         let paginationPagesQuantity = Math.ceil(result.length / 25);

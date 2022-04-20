@@ -1,8 +1,16 @@
 const jwt = require('jsonwebtoken');
 
+
+const generateAccessToken = (user) => {
+    return jwt.sign(user, 'SECRET', {expiresIn: '1m'})
+}
+
+const generateRefreshToken = (user) => {
+    return jwt.sign(user, 'refreshToken', {expiresIn: '30d'})
+}
+
 const checkToken = (request, response, next) => {
-const token = request.token
-    console.log(token)
+    const token = request.token
     if (token) {
         jwt.verify(token, 'SECRET', (error, decoded) => {
             if (error) {
@@ -23,6 +31,30 @@ const token = request.token
     }
 };
 
+const verifyRefreshToken = (req, res, next) => {
+    const { refreshToken } = req.cookies;
+
+    jwt.verify(refreshToken, "refreshToken", (err, decoded) => {
+        if (err) {
+            return res.status(401).send('Unauthorised');
+        }
+        if (decoded) {
+            const user = decoded.name
+            const token = generateAccessToken({user:user});
+            const refreshToken = generateRefreshToken({user:user});
+            res.cookie("refreshToken", refreshToken, {
+                httpOnly: true
+            });
+            return res.status(200).json({token});
+        }
+    });
+}
+
+
+
 module.exports = {
-    checkToken
+    checkToken,
+    generateAccessToken,
+    generateRefreshToken,
+    verifyRefreshToken
 }

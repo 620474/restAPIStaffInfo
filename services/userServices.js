@@ -1,7 +1,7 @@
 const {saveUser, loginUser} = require('../models/userModel')
 
-const saveUserServices = (name,password) => {
-    return saveUser(name,password)
+const saveUserServices = (name, password) => {
+    return saveUser(name, password)
 }
 
 

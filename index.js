@@ -2,7 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const bearerToken = require('express-bearer-token');
 const {logger, errorLogger} =require('./logger/logger');
-const {errorHandler} = require('./middleware/errorHandler')
+const {errorHandler} = require('./middleware/errorHandler');
+const cookieParser = require('cookie-parser')
 const router = require('./router')
 
 const app = express();
@@ -10,6 +11,7 @@ const app = express();
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(bearerToken());
+app.use(cookieParser())
 app.use(cors());
 
 app.use(logger);

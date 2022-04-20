@@ -1,7 +1,7 @@
 const express = require('express');
 const {userValidator} = require('./validation/validation');
 const {authUser, registerUser} = require('./routes/user')
-const {checkToken} = require('./middleware/auth.js')
+const {checkToken,verifyRefreshToken} = require('./middleware/auth.js')
 const {staffCreateValidator} = require('./validation/validation')
 const {addNewStaff,showAllStaff,showStaffById,deleteStaff} = require('./routes/staff')
 
@@ -18,10 +18,13 @@ router.route('/registerNewStaff')
     .post(checkToken, staffCreateValidator, addNewStaff)
 
 router.route('/')
-    .get(showAllStaff)
+    .get( showAllStaff)
 
 router.route('/staff/:id')
     .get(checkToken, showStaffById)
     .post(checkToken, deleteStaff)
+
+router.route('/refreshtoken')
+    .post(verifyRefreshToken)
 
 module.exports = router;
